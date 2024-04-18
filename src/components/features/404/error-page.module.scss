@@ -1,0 +1,17 @@
+.error_section {
+    color: #333;
+    height: 100vh;
+    background-color: #4d4395;
+
+    display: flex;
+    justify-content: center;
+
+    div {
+        text-align: center;
+
+        h1 {
+            margin-top: 150px;
+            font-size: 105px;
+        }
+    }
+}
