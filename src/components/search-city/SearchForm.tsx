@@ -14,7 +14,7 @@ export const SearchForm = (props: SearchFormType) => {
     }
 
     return (
-        <div>
+        <div className='search_form_block'>
             <input type="text" className="search_form" value={props.cities} onChange={onChangeCityHandler} />
         </div>
     )

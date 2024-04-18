@@ -46,7 +46,7 @@ export const SearchCityPage = () => {
                     )}
                 </div>
 
-                {currentCityInfo && <CurrentCityWeather />}
+                {currentCityInfo && <CurrentCityWeather currentCityInfo={currentCityInfo}/>}
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ function App() {
     return (
         <Routes>
             <Route path={'*'} element={<SearchCityPage />} />
-            <Route path="*" element={<Navigate to={'/404'} />} />
+            {/* <Route path="*" element={<Navigate to={'/404'} />} /> */}
         </Routes>
     )
 }

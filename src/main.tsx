@@ -11,10 +11,10 @@ const router = createBrowserRouter([
         element: <App />,
         errorElement: <Navigate to="/404" />,
     },
-    {
-        path: '/404',
-        element: <ErrorPage />,
-    },
+    // {
+    //     path: '/404',
+    //     element: <ErrorPage />,
+    // },
     {
         path: '/wheather-details',
         element: <CurrentCityWeather />,

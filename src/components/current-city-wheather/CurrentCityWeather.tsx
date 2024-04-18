@@ -1,11 +1,29 @@
+import { searchCityType } from '../../api/api'
 
-export const CurrentCityWeather = () => {
+type CurrentCityWeatherType = {
+    currentCityInfo: searchCityType
+}
 
+export const CurrentCityWeather: React.FC<CurrentCityWeatherType> = ({ currentCityInfo }) => {
     return (
-        <div>
-            <h1>1awdawdawd</h1>
-            <b>1awdawdawd</b>
-            <h1>1awdawdawd</h1>
-        </div>
+        <section className="current_city_section">
+            <div className="current_weather_info_block">
+                <div className="weather_details_block">
+                    <div className="wheather_image">
+                        <img className="wheather_image_img" src={currentCityInfo.current.condition.icon} alt="#" />
+                    </div>
+                    <p className="location_country">{currentCityInfo.location.country}</p>
+                    <h2 className="current_city">{currentCityInfo.location.name}</h2>
+                    <div className="weather_info">
+                        <span>{currentCityInfo.current.temp_c}°C</span>
+                        <span> | </span>
+                        <span>{currentCityInfo.current.condition.text}</span>
+                    </div>
+                </div>
+                <div>
+                    <button className='details_btn'>More Details</button>
+                </div>
+            </div>
+        </section>
     )
 }
