@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom"
 
 type City = {
     name: string
@@ -21,8 +20,6 @@ type SearchDropdownType = {
 }
 
 export const SearchDropdown = (props: SearchDropdownType) => {
-    const navigate = useNavigate();
-
     if (props.cityArray === undefined || props.cityArray.length === 0) {
         return
     }

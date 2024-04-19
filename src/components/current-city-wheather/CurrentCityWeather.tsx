@@ -2,9 +2,16 @@ import { searchCityType } from '../../api/api'
 
 type CurrentCityWeatherType = {
     currentCityInfo: searchCityType
+    setPopup: (popup: boolean) => void
 }
 
-export const CurrentCityWeather: React.FC<CurrentCityWeatherType> = ({ currentCityInfo }) => {
+export const CurrentCityWeather: React.FC<CurrentCityWeatherType> = ({ currentCityInfo, setPopup }) => {
+
+    const showPopup = () => {
+        console.log("Show");
+        setPopup(true);
+    }
+
     return (
         <section className="current_city_section">
             <div className="current_weather_info_block">
@@ -15,13 +22,13 @@ export const CurrentCityWeather: React.FC<CurrentCityWeatherType> = ({ currentCi
                     <p className="location_country">{currentCityInfo.location.country}</p>
                     <h2 className="current_city">{currentCityInfo.location.name}</h2>
                     <div className="weather_info">
-                        <span>{currentCityInfo.current.temp_c}°C</span>
+                        <span>{Math.floor(currentCityInfo.current.temp_c)}°C</span>
                         <span> | </span>
                         <span>{currentCityInfo.current.condition.text}</span>
                     </div>
                 </div>
                 <div>
-                    <button className='details_btn'>More Details</button>
+                    <button className='details_btn' onClick={showPopup}>More Details</button>
                 </div>
             </div>
         </section>

@@ -66,7 +66,7 @@ export const optionsGetAllCities = {
         'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
     },
     params: {
-        minPopulation: '100000',
+        minPopulation: '1000',
     },
 }
 
