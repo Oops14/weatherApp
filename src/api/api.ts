@@ -84,4 +84,10 @@ export const wheatherApi = {
             settingsWheatherApi
         )
     },
+    weatherDetails(city: string) {
+        return axios.get<searchCityType>(
+            `http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=14`,
+            settingsWheatherApi
+        )
+    },
 }

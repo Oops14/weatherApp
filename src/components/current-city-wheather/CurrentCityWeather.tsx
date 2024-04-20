@@ -8,8 +8,7 @@ type CurrentCityWeatherType = {
 export const CurrentCityWeather: React.FC<CurrentCityWeatherType> = ({ currentCityInfo, setPopup }) => {
 
     const showPopup = () => {
-        console.log("Show");
-        setPopup(true);
+        setPopup(true)
     }
 
     return (
@@ -19,6 +18,7 @@ export const CurrentCityWeather: React.FC<CurrentCityWeatherType> = ({ currentCi
                     <div className="wheather_image">
                         <img className="wheather_image_img" src={currentCityInfo.current.condition.icon} alt="#" />
                     </div>
+                    <p>{currentCityInfo.current.condition.text}</p>
                     <p className="location_country">{currentCityInfo.location.country}</p>
                     <h2 className="current_city">{currentCityInfo.location.name}</h2>
                     <div className="weather_info">
@@ -28,7 +28,9 @@ export const CurrentCityWeather: React.FC<CurrentCityWeatherType> = ({ currentCi
                     </div>
                 </div>
                 <div>
-                    <button className='details_btn' onClick={showPopup}>More Details</button>
+                    <button className="details_btn" onClick={showPopup}>
+                        14 days Weather
+                    </button>
                 </div>
             </div>
         </section>

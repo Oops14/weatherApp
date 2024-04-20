@@ -3,7 +3,6 @@ import { searchCityType, wheatherApi } from '../../api/api'
 import { SearchForm } from './SearchForm'
 import { SearchDropdown } from './SearchDropdown'
 import { CurrentCityWeather } from '../current-city-wheather/CurrentCityWeather'
-import * as s from './search-city-pages.css'
 import WeatherPopup from '../features/popup/WeatherPopup'
 
 export const SearchCityPage = () => {
@@ -34,15 +33,14 @@ export const SearchCityPage = () => {
         return response
     }
 
-    const showPopup = () => {}
-
     useEffect(() => {
-        console.log(currentCityInfo)
-    }, [currentCityInfo])
+
+
+    }, [])
 
     return (
         <div className="main_search_page">
-            {popup && <WeatherPopup setPopup={setPopup}/>}
+            {popup && <WeatherPopup currentCityInfo={currentCityInfo} setPopup={setPopup}/>}
             <div className="container">
                 <div className={'search_city_block bottom-20'}>
                     <h3 className="search_page_title">Enter the city name.</h3>

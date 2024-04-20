@@ -229,7 +229,9 @@ h5 {
 .popup_grid_item {
     height: 90%;
     min-width: 140px;
-    background-color: rgb(202, 187, 187);
+
+    border: 3px solid #4d4395;
+    text-align: center;
 
     padding: 10px;
     margin-right: 10px;
