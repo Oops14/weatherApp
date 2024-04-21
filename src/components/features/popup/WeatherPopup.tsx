@@ -6,6 +6,46 @@ type WeatherPopupType = {
     currentCityInfo: searchCityType
 }
 
+type HourType = {
+    time_epoch: number
+    time: string
+    temp_c: number
+    temp_f: number
+    is_day: number
+    condition: {
+        text: string
+        icon: string
+        code: number
+    }
+    wind_mph: number
+    wind_kph: number
+    wind_degree: number
+    wind_dir: string
+    pressure_mb: number
+    pressure_in: number
+    precip_mm: number
+    precip_in: number
+    humidity: number
+    cloud: number
+    feelslike_c: number
+    feelslike_f: number
+    windchill_c: number
+    windchill_f: number
+    heatindex_c: number
+    heatindex_f: number
+    dewpoint_c: number
+    dewpoint_f: number
+    will_it_rain: number
+    chance_of_rain: number
+    will_it_snow: number
+    chance_of_snow: number
+    vis_km: number
+    vis_miles: number
+    gust_mph: number
+    gust_kph: number
+    uv: number
+}
+
 type ForecastType = {
     date: string
     date_epoch: number
@@ -42,49 +82,13 @@ type ForecastType = {
         moon_phase: string
         moon_illumination: string
     }
-    hour: {
-        time_epoch: number
-        time: string
-        temp_c: number
-        temp_f: number
-        is_day: number
-        condition: {
-            text: string
-            icon: string
-            code: number
-        }
-        wind_mph: number
-        wind_kph: number
-        wind_degree: number
-        wind_dir: string
-        pressure_mb: number
-        pressure_in: number
-        precip_mm: number
-        precip_in: number
-        humidity: number
-        cloud: number
-        feelslike_c: number
-        feelslike_f: number
-        windchill_c: number
-        windchill_f: number
-        heatindex_c: number
-        heatindex_f: number
-        dewpoint_c: number
-        dewpoint_f: number
-        will_it_rain: number
-        chance_of_rain: number
-        will_it_snow: number
-        chance_of_snow: number
-        vis_km: number
-        vis_miles: number
-        gust_mph: number
-        gust_kph: number
-        uv: number
-    }[]
+    hour: HourType[]
 }
 
 const WeatherPopup: React.FC<WeatherPopupType> = ({ setPopup, currentCityInfo }) => {
     const [forecast, setForecast] = useState<ForecastType[]>([])
+    const [hourlyForecast, setHourlyForecast] = useState(false)
+    const [hourlyForecastData, setHourlyForecastData] = useState<HourType[]>([])
 
     const closePopup = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         const target = e.target as HTMLElement
@@ -93,13 +97,30 @@ const WeatherPopup: React.FC<WeatherPopupType> = ({ setPopup, currentCityInfo })
         }
     }
 
+    const showHourlyWeather = (date: string) => {
+        forecast.map((i) => (i.date === date ? setHourlyForecastData(i.hour) : i))
+        setHourlyForecast(true)
+        console.log(hourlyForecastData)
+    }
+
+    const backToDaysWeather = () => {
+        setHourlyForecast(false)
+    }
+
+    function ToLocalDate(inDate: number) {
+        const localDate = new Date()
+        let result = [];
+        localDate.setTime(inDate * 1000)
+
+        return localDate
+    }
+
     useEffect(() => {
         const cityName = currentCityInfo.location.name
         wheatherApi
             .weatherDetails(cityName)
             .then((res) => {
                 setForecast(res.data.forecast.forecastday)
-                console.log(res.data.forecast.forecastday)
             })
             .catch((err) => alert(err))
     }, [])
@@ -109,26 +130,52 @@ const WeatherPopup: React.FC<WeatherPopupType> = ({ setPopup, currentCityInfo })
             <button data-popup="button-close" onClick={closePopup} className="popup_close">
                 Close
             </button>
+            {hourlyForecast && (
+                <button onClick={backToDaysWeather} className="back_btn">
+                    Back
+                </button>
+            )}
             <div className="popup_inner">
-                {forecast.map((i) => {
-                    return (
-                        <div className="popup_grid_item">
-                            <div>{i.date}</div>
-                            <div>
-                                <img src={i.day.condition.icon} alt="#" />
-                            </div>
-                            <p>{i.day.condition.text}</p>
-                            <p>Avarage Temp: {i.day.avgtemp_c}</p>
-                            <p>Max Temp: {i.day.maxtemp_c}</p>
-                            <p>Min Temp: {i.day.mintemp_c}</p>
-                            <div>--------------------</div>
-                            <p>Sunrise: {i.astro.sunrise}</p>
-                            <p>Sunset: {i.astro.sunset}</p>
+                {hourlyForecast
+                    ? hourlyForecastData.map((i) => {
+                          return (
+                              <div className="popup_grid_item">
+                                  <div className="inner_block">
+                                      <div className="date_time">{ToLocalDate(i.time_epoch).toLocaleString().split(' ')[1]}</div>
+                                      <div className="date_time">{i.is_day ? 'Day' : 'Night'}</div>
+                                      <div className="days_img">
+                                          <img className="days_img_inner" src={i.condition.icon} alt="#" />
+                                      </div>
+                                      <p className="days_condition">{i.condition.text}</p>
+                                      <p className="avar_temp">Temperature: {Math.floor(i.temp_c)}</p>
+                                      <p className="days_sunset">Feels like: {Math.floor(i.feelslike_c)}</p>
+                                      <p className="days_sunrise">Wind direction: {i.wind_dir}</p>
+                                  </div>
+                              </div>
+                          )
+                      })
+                    : forecast.map((i) => {
+                          return (
+                              <div className="popup_grid_item">
+                                  <div className="inner_block">
+                                      <div className="date_time">{i.date}</div>
+                                      <div className="days_img">
+                                          <img className="days_img_inner" src={i.day.condition.icon} alt="#" />
+                                      </div>
+                                      <p className="days_condition">{i.day.condition.text}</p>
+                                      <p className="avar_temp">Avarage Temp: {i.day.avgtemp_c}</p>
+                                      <p className="max_temp">Max Temp: {i.day.maxtemp_c}</p>
+                                      <p className="min_temp">Min Temp: {i.day.mintemp_c}</p>
+                                      <p className="days_sunrise">Sunrise: {i.astro.sunrise}</p>
+                                      <p className="days_sunset">Sunset: {i.astro.sunset}</p>
+                                  </div>
 
-                            <button>Hourly weather</button>
-                        </div>
-                    )
-                })}
+                                  <button onClick={() => showHourlyWeather(i.date)} className="hourly_weath_btn">
+                                      Hourly weather
+                                  </button>
+                              </div>
+                          )
+                      })}
             </div>
         </div>
     )
